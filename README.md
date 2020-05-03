@@ -38,21 +38,6 @@ $ yarn start
   instala de una ves la base de datos y la aplicacion mongo-express,
   permitiendo administrar de forma grafica el servidor de base de datos.
 
-# Objeto Json
-  {
-    "dni": 10292569,
-    "name": "Pedro Obando",
-    "enabled": true,
-    "usuario": false,
-    "cliente": false,
-    "proveedor": false,
-    "conductor": false,
-    "locations": {
-      "phones": [],
-      "address": "",
-      "email": ""
-    }
-  }
 ```
 
 
