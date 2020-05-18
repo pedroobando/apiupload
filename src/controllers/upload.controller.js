@@ -2,6 +2,8 @@ import { connect } from '../database/mongoCnn';
 import { ObjectID } from 'mongodb';
 import assert from 'assert';
 
+import fs from 'fs-extra'
+
 const collectionName = 'uploads';
 
 // sequelize crud
@@ -57,8 +59,26 @@ export async function getEntityOne(req) {
 export async function createEntity(req) {
   let retAccion = {status:200, data:[]}
   try {
-    console.log(req.file);
+    // console.log(req.file);
+    
     let dataObject = dataEntity(req.file);
+    // Creacion de la categoria
+    const category = req.body['category'] || 'nocategory';
+    // Constantes de ubicacion
+    const dirOrigen = dataObject.path;
+    const dirDestino = dataObject.destination+'/'+category;
+    const fileDestino = dirDestino+'/'+dataObject.filename
+    // verificacion si existe el direcctorio origen
+    if (!fs.exists(dirDestino)) {
+      await fs.mkdir(dirDestino);  
+    }
+    // mover el archivo del origen al direcctorio destino
+    await fs.move(dirOrigen,fileDestino);
+    // replaza las viejas rutas x los nuevas (db)
+    dataObject.destination = dirDestino;
+    dataObject.path = fileDestino;
+    dataObject.category = category;
+    // - coneccion con base datos
     const db = await connect();
     const result = await db.collection(collectionName).insertOne(dataObject);
     assert.equal(1, result.insertedCount);

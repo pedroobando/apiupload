@@ -6,5 +6,6 @@ const _MULTER_CFG = {
 }
 
 export default function()  {
-  return multer(_MULTER_CFG).single('image');
+  var upload = multer( _MULTER_CFG );
+  return upload.single('fileups');
 }

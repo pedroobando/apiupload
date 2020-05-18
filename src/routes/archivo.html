@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Servidor apiupload</title>
+</head>
+<body>
+  <form action="/api/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="fileups">
+    <input type="hidden" name="category" value="usuarios">
+    <button type="submit">Enviar</button>
+  </form>
+
+  <form action="/api/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="fileups">
+    <input type="hidden" name="category" value="imagenes">
+    <button type="submit">Enviar</button>
+  </form>
+
+  <form action="/api/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="fileups">
+    <input type="hidden" name="category" value="documentos">
+    <button type="submit">Enviar</button>
+  </form>
+
+</body>
+</html>
+
