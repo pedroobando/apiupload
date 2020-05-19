@@ -1,7 +1,9 @@
-import express, { json } from 'express';
+import express, {json} from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
+// import path from 'path';
 
 import routeApps from './routes';
 import uploadApps from './uploads';
@@ -19,10 +21,15 @@ if (process.env.NODE_ENV === 'DEV') {
   serve.use(morgan('dev'));  
 }
 
+// const rutaStatic = path.join(__dirname,'/routes');
+// console.log(rutaStatic);
+
+
 serve
   .use(cors())
   .use(json())
-  .use(uploadApps());
+  .use(uploadApps())
+  // .use('/public',express.static(rutaStatic));
 
 routeApps(serve);
 

@@ -1,7 +1,11 @@
 # apiupload
 
 ## Description
-  apirest para guardar datos de images, conexion de base de datos mongo.
+  apirest para subir archivos a un servidor y guardar datos de images con su ruta en una base de datos mongo.
+
+## Description
+  Actualmente no se logra leer la imagen del apirest o del servidor de images.
+
 
 ## Running the app
 

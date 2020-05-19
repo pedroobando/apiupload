@@ -1,6 +1,8 @@
 import { Router } from 'express';
-import { createEntity, updateEntity, removeEntity, createIndex, getEntityAll, getEntityOne } from '../controllers/upload.controller';
+import { createEntity, updateEntity, removeEntity, createIndex, getEntityAll, getEntityOne, getEntityFileOne } from '../controllers/upload.controller';
 const theRouter = Router();
+
+// theRouter.get('/file')
 
 theRouter.get('/',  async (req, res) => {
   try {
@@ -21,9 +23,20 @@ theRouter.get('/createindex',  async (req, res) => {
 });
 
 theRouter.get('/:id', async (req, res) => {
-  try {
-    
+  try {    
     const result = await getEntityOne(req);
+    res.status(result.status).json(result.data);
+  } catch (error) {
+    console.log(error);
+  }  
+});
+
+theRouter.get('/file/:id', async (req, res) => {
+  try {    
+    const result = await getEntityFileOne(req);
+    
+    // res.writeHead(result.status, {'Content-Type': result.data.contenttype});
+    // res.end(result.data['file']);
     res.status(result.status).json(result.data);
   } catch (error) {
     console.log(error);

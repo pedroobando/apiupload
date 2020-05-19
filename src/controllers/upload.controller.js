@@ -1,8 +1,7 @@
 import { connect } from '../database/mongoCnn';
 import { ObjectID } from 'mongodb';
 import assert from 'assert';
-
-import fs from 'fs-extra'
+import fs from 'fs-extra';
 
 const collectionName = 'uploads';
 
@@ -56,11 +55,40 @@ export async function getEntityOne(req) {
   return retAccion;
 }
 
+export async function getEntityFileOne(req) {
+  let retAccion = {status:200, data:{}};
+  let dataEntity = {};
+  const { id } = req.params;
+  try {
+    
+    const db = await connect();
+    const result = await db.collection(collectionName).findOne({_id: ObjectID(id)})
+    if (result !== null) {
+      dataEntity = retdataEntity(result);
+      // retAccion.data = retdataEntity(result);
+      console.log(dataEntity.path);
+      retAccion.data = fs.readFile(dataEntity.path, dataEntity.mimetype , (err, xfile) => {
+        if (err) return console.error(err);
+        // console.log(dataEntity.mimetype);
+        // retAccion.data = {contenttype: dataEntity.mimetype};
+        // retAccion.data = retdataEntity(result);          
+        return {'rrr':9}
+      });
+      // retAccion.data = retdataEntity(result); 
+    } else {
+      retAccion = {status:404, data:{msg: `id ${id} not found`}}
+    }
+  } catch (error) {
+    retAccion = {status:404, data:validateError(error)}
+    // retAccion = {status:400, data:{error}}
+    // console.error(error);
+  }
+  return retAccion;
+}
+
 export async function createEntity(req) {
   let retAccion = {status:200, data:[]}
   try {
-    // console.log(req.file);
-    
     let dataObject = dataEntity(req.file);
     // Creacion de la categoria
     const category = req.body['category'] || 'nocategory';
