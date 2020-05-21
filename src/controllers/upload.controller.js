@@ -30,7 +30,6 @@ export async function getEntityAll(req) {
     retAccion.data = {record: resultData, countAll}
   } catch (error) {
     retAccion.status = 400;
-    // console.log(error.stack);
   }
   return retAccion;
 }
@@ -49,8 +48,6 @@ export async function getEntityOne(req) {
     }
   } catch (error) {
     retAccion = {status:404, data:validateError(error)}
-    // retAccion = {status:400, data:{error}}
-    // console.error(error);
   }
   return retAccion;
 }
@@ -95,13 +92,18 @@ export async function createEntity(req) {
     // Constantes de ubicacion
     const dirOrigen = dataObject.path;
     const dirDestino = dataObject.destination+'/'+category;
-    const fileDestino = dirDestino+'/'+dataObject.filename
+    // const fileDestino = dirDestino+'/'+dataObject.filename;
+    const fileExtension = (dataObject.originalname).split('.').pop();
+    const fileDestino = dirDestino+'/'+dataObject.filename+'.'+fileExtension;
+    // const fileRename = dirDestino+'/'+(dataObject.originalname).split(' ').join('_');
     // verificacion si existe el direcctorio origen
     if (!fs.exists(dirDestino)) {
       await fs.mkdir(dirDestino);  
     }
     // mover el archivo del origen al direcctorio destino
-    await fs.move(dirOrigen,fileDestino);
+    await fs.move(dirOrigen, fileDestino);
+    // await fs.rename(fileDestino, fileRename);
+
     // replaza las viejas rutas x los nuevas (db)
     dataObject.destination = dirDestino;
     dataObject.path = fileDestino;
