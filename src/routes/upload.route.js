@@ -34,7 +34,6 @@ theRouter.get('/:id', async (req, res) => {
 theRouter.get('/file/:id', async (req, res) => {
   try {    
     const result = await getEntityFileOne(req);
-    
     // res.writeHead(result.status, {'Content-Type': result.data.contenttype});
     // res.end(result.data['file']);
     res.status(result.status).json(result.data);

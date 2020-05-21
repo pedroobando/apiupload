@@ -2,7 +2,6 @@ import express, {json} from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
-
 import routeApps from './routes';
 import uploadApps from './uploads';
 
