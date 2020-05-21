@@ -1,13 +1,70 @@
 # apiupload
 
 ## Description
-  apirest para subir archivos a un servidor y guardar datos de images con su ruta en una base de datos mongo.
+  Crear APIREST de un simple servidor de archivos, se puede subir cualquier tipo de archivos, imagenes, pdf, etc, lo trata como un archivo binario.
 
-## Description
-  Actualmente no se logra leer la imagen del apirest o del servidor de images.
+  Guarda los datos en un base de datos de mongo.
+
+## Estatus actual. - 
+  Terminado.
 
 
-## Running the app
+## Rutas del API
+```bash
+  # ruta principal
+  http:...:3002/api/file  <= ruta principal
+
+  # solcitud de todos los archivos existentes en la base de datos
+  METODO: GET
+  3002:/api/file
+
+  # Solcitud de los datos de un solo archivo
+  METODO: GET
+  3002:/api/file/:id
+
+  # Subir un archivo al repositorio
+  METODO: POST
+  3002:/api/file
+
+  # Eliminar o borrar un archivo al repositorio
+  METODO: DELETE
+  3002:/api/file/:id
+
+  # Mostrar un archivo en el navegador (imagen / pdf / etc) - siempre que lo permita el navegador
+  METODO: GET
+  3002:/api/file/show/:id
+
+  # Descargar o download un archivo del servidor
+  METODO: GET
+  3002:/api/file/down/:id
+```
+
+## Estructura de la base datos
+```bash
+  fieldname:    nombre vinculo entre el apirest y el formulario POST
+                <input type="file" name="fileups">
+  originalname: nombre original del arhivo
+  encoding:     tamaño
+  mimetype:     tipo de archivo subido
+  destination:  ruta fisica donde permanece el archivo
+  filename:     nombre actual del archivo
+  path:         ruta y nombre del archivo con su extension
+  category:     caregoria o 'se crea un direcctorio con su nombre'
+  comentary:    algun comentario sobre el archivo
+  _id:          campo clave en la base datos mongo
+```
+
+## formulario html
+```bash
+  <form action="/api/file" method="POST" enctype="multipart/form-data">
+    <input type="file" name="fileups">
+    <input type="hidden" name="category" value="usuarios">
+    <input type="text" name="comentary">
+    <button type="submit">Enviar</button>
+  </form>
+```
+
+## Ejecucion de la aplicacion
 
 ```bash
 # instalacion

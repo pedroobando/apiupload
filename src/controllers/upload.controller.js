@@ -38,7 +38,6 @@ export async function getEntityOne(req) {
   let retAccion = {status:200, data:{}}
   const { id } = req.params;
   try {
-    
     const db = await connect();
     const result = await db.collection(collectionName).findOne({_id: ObjectID(id)})
     if (result !== null) {
@@ -53,32 +52,27 @@ export async function getEntityOne(req) {
 }
 
 export async function getEntityFileOne(req) {
-  let retAccion = {status:200, data:{}};
+  let retAccion = {status:200, data:{}, content: null};
   let dataEntity = {};
   const { id } = req.params;
   try {
-    
     const db = await connect();
     const result = await db.collection(collectionName).findOne({_id: ObjectID(id)})
     if (result !== null) {
       dataEntity = retdataEntity(result);
-      // retAccion.data = retdataEntity(result);
-      console.log(dataEntity.path);
-      retAccion.data = fs.readFile(dataEntity.path, dataEntity.mimetype , (err, xfile) => {
-        if (err) return console.error(err);
-        // console.log(dataEntity.mimetype);
-        // retAccion.data = {contenttype: dataEntity.mimetype};
-        // retAccion.data = retdataEntity(result);          
-        return {'rrr':9}
+      const fileOrigen = dataEntity.path;
+      fs.access(fileOrigen, fs.constants.F_OK, err => {
+        if (process.env.NODE_ENV === 'DEV') {
+          console.log(`${fileOrigen} ${err ? "(no existe)": "(existe)"}`);
+        }
       });
-      // retAccion.data = retdataEntity(result); 
+      retAccion.data = retdataEntity(result);
+      retAccion.content = await fs.readFile(fileOrigen);
     } else {
       retAccion = {status:404, data:{msg: `id ${id} not found`}}
     }
   } catch (error) {
-    retAccion = {status:404, data:validateError(error)}
-    // retAccion = {status:400, data:{error}}
-    // console.error(error);
+    retAccion = {status:404, data: error}
   }
   return retAccion;
 }
@@ -89,6 +83,7 @@ export async function createEntity(req) {
     let dataObject = dataEntity(req.file);
     // Creacion de la categoria
     const category = req.body['category'] || 'nocategory';
+    const comentary = req.body['comentary'] || null;
     // Constantes de ubicacion
     const dirOrigen = dataObject.path;
     const dirDestino = dataObject.destination+'/'+category;
@@ -104,6 +99,8 @@ export async function createEntity(req) {
     dataObject.destination = dirDestino;
     dataObject.path = fileDestino;
     dataObject.category = category;
+    dataObject.comentary = comentary;
+
     // - coneccion con base datos
     const db = await connect();
     const result = await db.collection(collectionName).insertOne(dataObject);
@@ -136,9 +133,21 @@ export async function removeEntity(req) {
   try {
     const db = await connect();
     const { id } = req.params;
-    let result = await db.collection(collectionName).deleteOne({_id: ObjectID(id)});
-    assert.equal(1, result.deletedCount);
-    retAccion = {status: 200, deletedCount: result.deletedCount, data: {id, result}}
+    let dataEntity = await db.collection(collectionName).findOne({_id: ObjectID(id)})
+    if (dataEntity == null) {
+      retAccion = {status: 404, deletedCount: 0, data: {id, dataEntity}}
+    } else {
+      const fileOrigen = dataEntity.path;
+      fs.access(fileOrigen, fs.constants.F_OK, err => {
+        if (process.env.NODE_ENV === 'DEV') {
+          console.log(`${fileOrigen} ${err ? "(no existe)": "(existe)"}`);
+        }
+      });
+      await fs.unlink(fileOrigen);
+      let result = await db.collection(collectionName).deleteOne({_id: ObjectID(id)});
+      assert.equal(1, result.deletedCount);
+      retAccion = {status: 200, deletedCount: result.deletedCount, data: {id, result}}
+    }
   } catch (error) {
     retAccion = {status: 400, deletedCount: 0, data: validateError(error) };
   }
@@ -170,7 +179,9 @@ function dataEntity(valueEnt) {
     mimetype: valueEnt.mimetype !== undefined ? valueEnt.mimetype: null,
     destination: valueEnt.destination !== undefined ? valueEnt.destination: '',
     filename: valueEnt.filename !== undefined ? valueEnt.filename: '',
-    path: valueEnt.path !== undefined ? valueEnt.path: ''
+    path: valueEnt.path !== undefined ? valueEnt.path: '',
+    category: valueEnt.category !== undefined ? valueEnt.category: '',
+    comentary: valueEnt.comentary !== undefined ? valueEnt.comentary: null,
   }
 }
 
@@ -184,7 +195,9 @@ function retdataEntity(valueEnt) {
     mimetype: valueEnt.mimetype !== undefined ? valueEnt.mimetype: null,
     destination: valueEnt.destination !== undefined ? valueEnt.destination: null,
     filename: valueEnt.filename !== undefined ? valueEnt.filename: null,
-    path: valueEnt.path !== undefined ? valueEnt.path: null
+    path: valueEnt.path !== undefined ? valueEnt.path: null,
+    category: valueEnt.category !== undefined ? valueEnt.category: '',
+    comentary: valueEnt.comentary !== undefined ? valueEnt.comentary: null
   }
 }
 

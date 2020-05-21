@@ -5,19 +5,20 @@
   <title>Servidor apiupload</title>
 </head>
 <body>
-  <form action="/api/upload" method="POST" enctype="multipart/form-data">
+  <form action="/api/file" method="POST" enctype="multipart/form-data">
     <input type="file" name="fileups">
     <input type="hidden" name="category" value="usuarios">
+    <input type="text" name="comentary">
     <button type="submit">Enviar</button>
   </form>
 
-  <form action="/api/upload" method="POST" enctype="multipart/form-data">
+  <form action="/api/file" method="POST" enctype="multipart/form-data">
     <input type="file" name="fileups">
     <input type="hidden" name="category" value="imagenes">
     <button type="submit">Enviar</button>
   </form>
 
-  <form action="/api/upload" method="POST" enctype="multipart/form-data">
+  <form action="/api/file" method="POST" enctype="multipart/form-data">
     <input type="file" name="fileups">
     <input type="hidden" name="category" value="documentos">
     <button type="submit">Enviar</button>

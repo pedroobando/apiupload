@@ -12,7 +12,7 @@ const rutaError404 = (req, res, next) => {
 
 export default function (app) {
   // routes apps
-  app.use('/api/upload', uploadRoutes);
+  app.use('/api/file', uploadRoutes);
 
   app.use('/', express.static(rutaRaizStatic));
   app.use('/public', express.static(rutaFileStatic));

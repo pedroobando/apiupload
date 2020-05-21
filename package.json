@@ -1,6 +1,6 @@
 {
   "name": "apiupload",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
@@ -15,7 +15,8 @@
     "nodemon",
     "mongodb",
     "mongo",
-    "multer"
+    "multer",
+    "fs-extra"
   ],
   "author": "Pedro Obando",
   "description": "",

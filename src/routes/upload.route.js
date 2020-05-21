@@ -1,8 +1,6 @@
 import { Router } from 'express';
-import { createEntity, updateEntity, removeEntity, createIndex, getEntityAll, getEntityOne, getEntityFileOne } from '../controllers/upload.controller';
+import { createEntity, removeEntity, createIndex, getEntityAll, getEntityOne, getEntityFileOne } from '../controllers/upload.controller';
 const theRouter = Router();
-
-// theRouter.get('/file')
 
 theRouter.get('/',  async (req, res) => {
   try {
@@ -31,12 +29,32 @@ theRouter.get('/:id', async (req, res) => {
   }  
 });
 
-theRouter.get('/file/:id', async (req, res) => {
+theRouter.get('/show/:id', async (req, res) => {
   try {    
     const result = await getEntityFileOne(req);
-    // res.writeHead(result.status, {'Content-Type': result.data.contenttype});
-    // res.end(result.data['file']);
-    res.status(result.status).json(result.data);
+    if (result.status == 200) {
+      res.writeHead(result.status, {"Content-type": result.data.mimetype});
+      res.end(result.content);
+    } else {
+      res.status(result.status).json(result.data);
+    }
+  } catch (error) {
+    console.log(error);
+  }  
+});
+
+theRouter.get('/down/:id', async (req, res) => {
+  try {    
+    const result = await getEntityOne(req);
+    if (result.status == 200) {
+      res.download(result.data.path, result.data.originalname, (err) => {
+        if (err) {
+          res.status(400).json({err});
+        }
+      });
+    } else {
+      res.status(result.status).json(result.data);
+    }
   } catch (error) {
     console.log(error);
   }  
@@ -51,14 +69,14 @@ theRouter.post('/', async (req, res) => {
   }  
 });
 
-theRouter.put('/:id', async (req, res) => {
-  try {
-    const result = await updateEntity(req);
-    res.status(result.status).json(result);
-  } catch (error) {
-    console.log(error);
-  }  
-});
+// theRouter.put('/:id', async (req, res) => {
+//   try {
+//     const result = await updateEntity(req);
+//     res.status(result.status).json(result);
+//   } catch (error) {
+//     console.log(error);
+//   }  
+// });
 
 theRouter.delete('/:id', async (req, res) => {
   try {
