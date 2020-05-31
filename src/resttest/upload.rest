@@ -1,0 +1,49 @@
+
+
+@hostname = http://localhost
+@port = 3003
+@baseUrl = {{hostname}}:{{port}}/api/file
+
+GET {{baseUrl}}/createindex HTTP/1.1
+
+### 
+GET {{baseUrl}}/
+### 
+GET {{baseUrl}}/5ec6d25006493f3e30d5e6b6 
+### 
+GET {{baseUrl}}/placa/BAH12P
+
+### 
+POST {{baseUrl}}/5ed236b5012e8a23d2a3aff0
+Content-Type: application/json
+
+{
+  "fieldname": "fileups",
+  "originalname": "pago condominio los roques mes abril 2020 - 2.pdf",
+  "encoding": "7bit",
+  "mimetype": "application/pdf",
+  "destination": "/media/pedro/72dc98d7-136c-45cf-82a0-ce69c8443927/pedro/node/apirest/apiupload/public/uploads/usuarios",
+  "filename": "113b2ea79fad41f89d0f6c3006c0444e",
+  "path": "/media/pedro/72dc98d7-136c-45cf-82a0-ce69c8443927/pedro/node/apirest/apiupload/public/uploads/usuarios/113b2ea79fad41f89d0f6c3006c0444e.pdf",
+  "category": "usuarios",
+  "comentary": "Mes de pago condominio los roques - por pedro obando"
+}
+
+### 
+DELETE {{baseUrl}}/5ed22d69d2cc4321305c6b85
+
+### 
+PUT {{baseUrl}}/5ec6d25006493f3e30d5e6b6 
+Content-Type: application/json
+
+{
+  "fieldname": "fileups",
+  "originalname": "pago condominio los roques mes abril 2020 - 2.pdf",
+  "encoding": "7bit",
+  "mimetype": "application/pdf",
+  "destination": "/media/pedro/72dc98d7-136c-45cf-82a0-ce69c8443927/pedro/node/apirest/apiupload/public/uploads/usuarios",
+  "filename": "113b2ea79fad41f89d0f6c3006c0444e",
+  "path": "/media/pedro/72dc98d7-136c-45cf-82a0-ce69c8443927/pedro/node/apirest/apiupload/public/uploads/usuarios/113b2ea79fad41f89d0f6c3006c0444e.pdf",
+  "category": "usuarios",
+  "comentary": "Mes de pago condominio los roques - por pedro obando"
+}

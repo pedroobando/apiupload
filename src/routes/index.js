@@ -1,12 +1,11 @@
-// Importing routes
-import uploadRoutes from './upload.route';
+import uploadRoutes from './upload.route'
 import express from 'express';
 import path from 'path';
 
 const rutaFileStatic = path.join(__dirname,'../../public/uploads');
 const rutaRaizStatic = path.join(__dirname,'../html');
 
-const rutaError404 = (req, res, next) => {
+const rutaError404 = (req, res) => {
   res.status(404).json({data:{msg: `Error 404 - No logro encontrar la ruta`}});
 }
 

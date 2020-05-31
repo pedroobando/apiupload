@@ -93,7 +93,6 @@ $ yarn start
   USERNAME = 'admin'
   USERPASS = 'c9817803#'
 
-
 # docker-compose.yml
   Contiene la configuracion del contenedor docker y mongo,
   instala de una ves la base de datos y la aplicacion mongo-express,
@@ -101,6 +100,37 @@ $ yarn start
 
 ```
 
+## rutas
+```bash
+  Muestra un html de ejemplo como subir los archivos
+  http:/...:xxxx/
+```
+
+```bash
+  API REST, ruta para subir el archivo 
+  http:/...:xxxx/api/file
+
+  Admite: GET / DELETE / POST
+```
+
+
+## Objetos Json 
+
+### Upload 
+```bash
+{
+  "_id": "5ec6d25006493f3e30d5e6b6",
+  "fieldname": "fileups",
+  "originalname": "pago condominio los roques mes abril 2020 - 2.pdf",
+  "encoding": "7bit",
+  "mimetype": "application/pdf",
+  "destination": "/media/pedro/72dc98d7-136c-45cf-82a0-ce69c8443927/pedro/node/apirest/apiupload/public/uploads/usuarios",
+  "filename": "113b2ea79fad41f89d0f6c3006c0444e",
+  "path": "/media/pedro/72dc98d7-136c-45cf-82a0-ce69c8443927/pedro/node/apirest/apiupload/public/uploads/usuarios/113b2ea79fad41f89d0f6c3006c0444e.pdf",
+  "category": "usuarios",
+  "comentary": "Mes de pago condominio los roques"
+}
+```
 
 ## kill process active
 
@@ -116,10 +146,13 @@ $ kill -9 {PID}
 
 ```bash
 # Crear la imagen
-  $ docker build -t apilogistimg .
+  $ docker build -t apiuplimg .
 
 # Crear el contenedor
-  $ docker run --name apilogist -it -d -p 3001:3001 apilogistimg
+  $ docker run --name apiupl -d --restart always -p 3010:3003 apiuplimg
+  
+  - modo interactivo 
+  $ docker run --name apiupload -it -p 4010:3003 apiuplimg
 
 # Entrar a un contenedor
   $ docker exec -i -t contenedorId /bin/bash #
