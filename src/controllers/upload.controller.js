@@ -107,7 +107,9 @@ export async function createEntity(req) {
     assert.equal(1, result.insertedCount);
     retAccion = {status: 201, insertedCount: result.insertedCount, data: result.ops[0]}
   } catch (error) {
-    console.error(error);
+    if (process.env.NODE_ENV === 'DEV') {
+      console.error(error);
+    }
     retAccion = {status: 400, insertedCount: 0, data: validateError(error)}
   }
   return retAccion;
@@ -180,13 +182,12 @@ function dataEntity(valueEnt) {
     destination: valueEnt.destination !== undefined ? valueEnt.destination: '',
     filename: valueEnt.filename !== undefined ? valueEnt.filename: '',
     path: valueEnt.path !== undefined ? valueEnt.path: '',
-    category: valueEnt.category !== undefined ? valueEnt.category: '',
+    category: valueEnt.category !== undefined ? valueEnt.category: null,
     comentary: valueEnt.comentary !== undefined ? valueEnt.comentary: null,
   }
 }
 
 function retdataEntity(valueEnt) {
-  // console.log('phone:', valueEnt.locations !== undefined);
   return {
     _id: valueEnt._id !== undefined ? valueEnt._id: null,
     fieldname: valueEnt.fieldname !== undefined ? valueEnt.fieldname: null,
@@ -196,25 +197,19 @@ function retdataEntity(valueEnt) {
     destination: valueEnt.destination !== undefined ? valueEnt.destination: null,
     filename: valueEnt.filename !== undefined ? valueEnt.filename: null,
     path: valueEnt.path !== undefined ? valueEnt.path: null,
-    category: valueEnt.category !== undefined ? valueEnt.category: '',
+    category: valueEnt.category !== undefined ? valueEnt.category: null,
     comentary: valueEnt.comentary !== undefined ? valueEnt.comentary: null
   }
 }
 
 function validateError(errParam) {
   let errMessage = {};
-  let errValue = 'ss'; // errParam.errors[0].value == null ? '': errParam.errors[0].value;
-  // console.error(errParam);
+  let errValue = 'ss';
   if (errParam.name == 'SequelizeValidationError') {
     errMessage = {msg: `El ${errParam.errors[0].path} ${errValue} no es valido, por favor verifique.`}
   }
-  // if (errParam.name == 'SequelizeUniqueConstraintError') {
-  //   errMessage = {msg: `El ${errParam.fields} ${errValue} ya esta registrado, por favor ingrese otro.`}
-  // }
   if (errParam.name == 'SequelizeUniqueConstraintError') {
     errMessage = {msg: `El ${errParam.errors[0].path} ${errValue} ya esta registrado, por favor ingrese otro.`}
   }
-  // console.log(errParam.name);
-  // console.log(errMessage.msg);
   return errMessage;  
 }
