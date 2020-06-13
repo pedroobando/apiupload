@@ -4,10 +4,16 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.js --exec babel-node",
-    "build": "babel src --out-dir dist",
-    "start": "node dist/index.js"
+    "build": "babel src -d dist --source-maps",
+    "clean": "rm -rf dist",
+    "debug": "nodemon --exec babel-node --inspect-brk src/index.js ",
+    "serve": "node dist/index.js",
+    "start": "nodemon src/index.js --exec babel-node",
+    "test": "jest --runInBand --verbose",
+    "coverage": "jest --coverage --runInBand --verbose",
+    "eslint": "eslint src/**/*.js --ignore-pattern \"node_modules/\"",
+    "lint": "eslint src --fix",
+    "release": "npm version patch && git push && git push --tags"    
   },
   "keywords": [
     "express",
@@ -18,8 +24,11 @@
     "multer",
     "fs-extra"
   ],
-  "author": "Pedro Obando",
-  "description": "",
+  "author": {
+    "name": "Pedro Obando",
+    "email": "pedro.obando@gmail.com"
+  },
+  "description": "Application to upload files to a repository, using mongo database to save the registry",
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "cors": "^2.8.5",
@@ -31,12 +40,20 @@
     "multer": "^1.4.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.6",
-    "@babel/node": "^7.8.7",
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/node": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "babel-preset-minify": "^0.5.1",
-    "eslint": "^6.8.0",
-    "nodemon": "^2.0.3"
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jest": "^23.13.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "jest": "^26.0.1",
+    "jest-cli": "^26.0.1",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
   }
 }

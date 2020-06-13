@@ -146,10 +146,10 @@ $ kill -9 {PID}
 
 ```bash
 # Crear la imagen
-  $ docker build -t apiuplimg .
+  $ docker build -t apiupl .
 
 # Crear el contenedor
-  $ docker run --name apiupl -d --restart always -p 3010:3003 apiuplimg
+  $ docker run --name apiupl -d --restart always -p 3010:3003 apiupl
   
   - modo interactivo 
   $ docker run --name apiupload -it -p 4010:3003 apiuplimg

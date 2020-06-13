@@ -1,15 +1,15 @@
-import uploadRoutes from './upload.route'
 import express from 'express';
 import path from 'path';
+import uploadRoutes from './upload.route';
 
-const rutaFileStatic = path.join(__dirname,'../../public/uploads');
-const rutaRaizStatic = path.join(__dirname,'../html');
+const rutaFileStatic = path.join(__dirname, '../../public/uploads');
+const rutaRaizStatic = path.join(__dirname, '../html');
 
 const rutaError404 = (req, res) => {
-  res.status(404).json({data:{msg: `Error 404 - No logro encontrar la ruta`}});
-}
+  res.status(404).json({ data: { msg: `Error 404 - No logro encontrar la ruta` } });
+};
 
-export default function (app) {
+export default function index(app) {
   // routes apps
   app.use('/api/file', uploadRoutes);
 
@@ -18,4 +18,3 @@ export default function (app) {
 
   app.use(rutaError404);
 }
-
