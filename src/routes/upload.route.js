@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import fs from 'fs-extra';
+
 import {
   createEntity,
   removeEntity,
@@ -39,15 +41,22 @@ theRouter.get('/:id', async (req, res) => {
 
 theRouter.get('/show/:id', async (req, res) => {
   try {
-    const result = await getEntityFileOne(req);
+    const result = await getEntityOne(req);
     if (result.status === 200) {
-      res.writeHead(result.status, { 'Content-type': result.data.mimetype });
-      res.end(result.content);
+      const entityOne = result.data;
+      fs.readFile(entityOne.path, function(err, data) {
+        if (err) {
+          res.status(404).json(`${entityOne.originalname} (no existe)`);
+        } else {
+          res.writeHead(200, {'Content-Type': entityOne.mimetype});
+          res.end(data);
+        }
+      });
     } else {
       res.status(result.status).json(result.data);
     }
   } catch (error) {
-    console.log(error);
+    res.status(400).json(error);
   }
 });
 

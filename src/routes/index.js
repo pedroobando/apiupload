@@ -11,6 +11,8 @@ const rutaError404 = (req, res) => {
 
 export default function index(app) {
   // routes apps
+
+  // console.log(__dirname);
   app.use('/api/file', uploadRoutes);
 
   app.use('/', express.static(rutaRaizStatic));

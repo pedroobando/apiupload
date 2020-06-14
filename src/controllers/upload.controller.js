@@ -101,31 +101,6 @@ export async function getEntityOne(req) {
   return retAccion;
 }
 
-export async function getEntityFileOne(req) {
-  let retAccion = { status: 200, data: {}, content: null };
-  const { id } = req.params;
-  try {
-    const db = await connect();
-    const result = await db.collection(collectionName).findOne({ _id: ObjectID(id) });
-    if (result !== null) {
-      // const rdataEntity = retdataEntity(result).path;
-      const fileOrigen = retdataEntity(result).path;
-      fs.access(fileOrigen, fs.constants.F_OK, (err) => {
-        if (process.env.NODE_ENV === 'DEV') {
-          throw Error(`${fileOrigen} ${err ? '(no existe)' : '(existe)'}`);
-        }
-      });
-      retAccion.data = retdataEntity(result);
-      retAccion.content = await fs.readFile(fileOrigen);
-    } else {
-      retAccion = { status: 404, data: { msg: `id ${id} not found` } };
-    }
-  } catch (error) {
-    retAccion = { status: 404, data: error };
-  }
-  return retAccion;
-}
-
 export async function createEntity(req) {
   let retAccion = { status: 200, data: [] };
   try {
@@ -219,3 +194,29 @@ export async function createIndex() {
   }
   return retAccion;
 }
+
+// export async function getEntityFileOne(req) {
+//   let retAccion = { status: 200, data: {}, content: null };
+//   const { id } = req.params;
+//   try {
+//     const db = await connect();
+//     const result = await db.collection(collectionName).findOne({ _id: ObjectID(id) });
+//     if (result !== null) {
+//       // const rdataEntity = retdataEntity(result).path;
+//       const fileOrigen = retdataEntity(result).path;
+//       fs.access(fileOrigen, fs.constants.F_OK, (err) => {
+//         if (process.env.NODE_ENV === 'DEV') {
+//           throw Error(`${fileOrigen} ${err ? '(no existe)' : '(existe)'}`);
+//         }
+//       });
+//       retAccion.data = retdataEntity(result);
+//       retAccion.content = await fs.readFile(fileOrigen);
+//       console.log(retAccion.content);
+//     } else {
+//       retAccion = { status: 404, data: { msg: `id ${id} not found` } };
+//     }
+//   } catch (error) {
+//     retAccion = { status: 404, data: error };
+//   }
+//   return retAccion;
+// }
