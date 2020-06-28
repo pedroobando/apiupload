@@ -9,7 +9,7 @@ GET {{baseUrl}}/createindex HTTP/1.1
 ### 
 GET {{baseUrl}}/
 ### 
-GET {{baseUrl}}/5ec6d25006493f3e30d5e6b6 
+GET {{baseUrl}}/5ec6d0c553b7c53ba2af7400 
 ### 
 GET {{baseUrl}}/placa/BAH12P
 
@@ -30,7 +30,7 @@ Content-Type: application/json
 }
 
 ### 
-DELETE {{baseUrl}}/5ed22d69d2cc4321305c6b85
+DELETE {{baseUrl}}/5ec6d0cb53b7c53ba2af7401
 
 ### 
 PUT {{baseUrl}}/5ec6d25006493f3e30d5e6b6 

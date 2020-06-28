@@ -165,9 +165,10 @@ export async function removeEntity(req) {
     } else {
       const fileOrigen = dataObject.path;
       fs.access(fileOrigen, fs.constants.F_OK, (err) => {
-        throw Error(`${fileOrigen} ${err ? '(no existe)' : '(existe)'}`);
+        if (!err) {
+          fs.unlink(fileOrigen);    
+        }
       });
-      await fs.unlink(fileOrigen);
       const result = await db.collection(collectionName).deleteOne({ _id: ObjectID(id) });
       assert.equal(1, result.deletedCount);
       retAccion = { status: 200, deletedCount: result.deletedCount, data: { id, result } };
